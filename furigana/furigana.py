@@ -82,7 +82,7 @@ def split_furigana(text):
     ```
     It seems like MeCab has bug in releasing resource
     """
-    mecab = MeCab.Tagger("-Ochasen")
+    mecab = MeCab.Tagger("-r/dev/null")
     mecab.parse('') # 空でパースする必要がある
     node = mecab.parseToNode(text)
     ret = []
@@ -98,7 +98,7 @@ def split_furigana(text):
             #sometimes MeCab can't give kanji reading, and make node-feature have less than 7 when splitted.
             #bypass it and give kanji as isto avoid IndexError
             if len(node.feature.split(",")) > 7:
-                kana = node.feature.split(",")[7] # 読み仮名を代入
+                kana = node.feature.split(",")[6] # 読み仮名を代入
             else:
                 kana = node.surface
             hiragana = jaconv.kata2hira(kana)
